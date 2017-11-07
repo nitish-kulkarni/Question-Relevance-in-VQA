@@ -1,0 +1,64 @@
+\documentclass[11pt,a4paper,English]{article}
+    
+\usepackage[left=0.8in,top=1in,right=0.8in,bottom=1in]{geometry}
+\usepackage{hyperref}
+
+\title{Project Proposal: Machine Learning with Large Datasets}
+\author{
+    Team:
+    Nitish Kulkarni (10805), 
+    Prakruthi Prabhakar (10805)
+}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Proposal}
+
+Question Answering systems solve the problem of extracting answers to a wide variety of questions pertaining to any domain. Research in this area has traditionally looked at the problem from two perspectives:
+\begin{enumerate}
+\item A reading comprehension task, where given a document and an associated question, the answer is extracted in the context of the document.
+\item A collection of knowledge sources and documents are provided and the answers are extracted using the knowledge corpus.
+\end{enumerate}
+
+The challenges of this problem include syntactic and semantic understanding of the posed question along with efficient parsing of documents and knowledge bases. 
+
+Some of the recent research focus has been on employing answer extraction using multiple large-scale sources of data and knowledge bases \cite{babi_paper1, babi_paper2}. \\
+
+ In this project, drawing ideas from the aforementioned research, we aim to work on the problem:
+\begin{quote}
+    \textit{Given a large collection of documents, knowledge sources and associated questions, extract relevant answers to the questions from the corpus.}
+\end{quote}
+
+\section{Methodology}
+
+We will begin by establishing simple baselines for answer extraction using machine comprehension of text: 
+\begin{itemize}
+\item sliding window approach as well as distance based extension \cite{mctest}
+\item logistic regression model using lexicalized features or dependency tree path features \cite{squad}
+\end{itemize}
+
+We will then explore scalable implementations of alternative NLP and deep learning techniques to enhance the model performance . We also aim to enhance the approach using \textit{open-domain question answering} techniques by augmenting large-scale knowledge sources to extract relevant answers to the posed questions. \cite{babi_paper1, babi_paper2, mctest}
+
+\section{Data}
+
+We are planning to use the following datasets:
+\begin{itemize}
+\item \textbf{SQuAD Dataset} The SimpleQuestions \cite{squad} dataset consists of a total of 108,442 questions written in natural language by human English-speaking annotators each paired with a corresponding fact, formatted as (subject, relationship, object), that provides the answer but also a complete explanation. Facts have been extracted from the Knowledge Base Freebase.
+\item \textbf{WikiMovies Dataset} The WikiMovies dataset \cite{wikimovies} contains question-answer pairs in the movies domain.
+\item \textbf{CMU Question-Answer Dataset} This dataset \cite{smith2008question} provides a corpus of Wikipedia articles along with manually-generated factoid questions and answers.
+\item \textbf{MCTest Dataset} \cite{mctest_data} This dataset comprises of 660 annotated reading comprehension stories split into two categories, where each story set is a story and its associated questions. 
+\item \textbf{Freebase Dataset} We will use Freebase knowledge base \cite{freebase:datadumps}, which provides structured information in the form of (subject, predicate, object) triples. FB2M, which was used in (Bordes et al., 2014a), contains about 2M entities and 5k relationships. FB5M, is much larger with about 5M entities and more than 7.5k relationships.
+\item \textbf{Reverb Dataset} The Reverb dataset \cite{reverb} contains about 2M entities and 600k relationships in an unstructured format in comparison to Freebase knowledge base.
+\end{itemize}
+
+
+\section{Team}
+
+We are currently a team of two 10-805 students. We are looking for another team member.
+
+\bibliography{BIB/references}
+\bibliographystyle{plain}
+
+\end{document}
