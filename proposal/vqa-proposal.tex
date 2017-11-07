@@ -1,0 +1,72 @@
+\documentclass{article}
+
+%\usepackage{nips_2017}
+\usepackage[final]{nips_2017}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+
+\title{Semantic Textual Similarity}
+\author{
+  Prakruthi Prabhakar\\
+  Computer Science Department\\
+  Carnegie Mellon University\\
+  \texttt{prakruthi@cmu.edu} \\
+  \And
+  Nitish Kulkarni\\
+  Language Technologies Institute\\
+  Carnegie Mellon University\\
+  \texttt{nitishkk@cmu.edu}
+  \And
+  Linghao Zhang\\
+  Institute for Software Research\\
+  Carnegie Mellon University\\
+  \texttt{linghaoz@cmu.edu}
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+	Free-form and open-ended Visual Question Answering systems solve the problem of providing an accurate natural language answer to a question pertaining to an image. In this project, we attempt to provide an efficient and scalable solution to the task, analyzing the trade-offs in training time, model complexity and the implementation.
+\end{abstract}
+
+\section{Introduction}
+The task of automatically answering questions in the context of visual information has gained prominence in the last few years [6, 7]. Being able to answer open-ended questions about an image is a challenging task, but one of great practical significance. For instance, visually impaired individuals might inquire about different aspects of an image in the form of free-form questions.\\
+In this project, we formulate the problem as follows:
+\begin{quotation}
+Given an image and a natural language question about the image, provide an accurate natural answer in the context of the image.
+\end{quotation}
+We aim to provide a simple and scalable solution to the problem, optimizing for the trade-offs between accuracy and computational efficiency. 
+
+\section{Methodology}
+
+We propose to first establish simple baselines by concatenating the word features from the question and CNN features from the image to predict the answer [4]. We would then explore more sophisticated architectures involving deep image captioning methods and dynamic memory networks in order to enhance the model performance [3, 5, 7]. Finally, we wish to simplify the model complexity using techniques like hashing trick, while still realizing improvements in performance over the baseline models [2].
+
+\section{Datasets}
+We will use VQA 2.0 [1], which contains open-ended questions about images. These questions require an understanding of vision, language and common-sense knowledge to answer. It contains 265,016 images (MS COCO dataset and abstract scenes). For each image, there are at least 3 questions (5.4 questions on average). For each question, 10 ground truth answers and 3 plausible (but likely incorrect) answers are provided.
+
+\section*{References}
+
+[1] Goyal, Yash, et al. "Making the V in VQA matter: Elevating the role of image understanding in Visual Question Answering." arXiv preprint arXiv:1612.00837 (2016).\\
+
+[2] Noh, Hyeonwoo, Paul Hongsuck Seo, and Bohyung Han. "Image question answering using convolutional neural network with dynamic parameter prediction." Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. (2016).\\
+
+[3] Xu, Huijuan, and Kate Saenko. "Ask, attend and answer: Exploring question-guided spatial attention for visual question answering." European Conference on Computer Vision. Springer International Publishing, 2016.\\
+
+[4] Zhou, Bolei, et al. "Simple baseline for visual question answering." arXiv preprint arXiv:1512.02167 (2015).\\
+
+[5] Xiong, Caiming, Stephen Merity, and Richard Socher. "Dynamic memory networks for visual and textual question answering." International Conference on Machine Learning. 2016.\\
+
+[6] Agrawal, A., Lu, J., Antol, S., Mitchell, M., Zitnick, C. L., Parikh, D., \& Batra, D. (2017). Vqa: Visual question answering. International Journal of Computer Vision, 123(1), 4-31.\\ 
+
+[7] Wu, Q., Teney, D., Wang, P., Shen, C., Dick, A., \& van den Hengel, A. (2017). Visual question answering: A survey of methods and datasets. Computer Vision and Image Understanding.\\ 
+
+\end{document}
