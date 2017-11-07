@@ -1,0 +1,71 @@
+\documentclass{article}
+
+%\usepackage{nips_2017}
+\usepackage[final]{nips_2017}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+
+\title{Question Relevance in VQA}
+\author{
+  Prakruthi Prabhakar\\
+  Computer Science Department\\
+  Carnegie Mellon University\\
+  \texttt{prakruthi@cmu.edu} \\
+  \And
+  Nitish Kulkarni\\
+  Language Technologies Institute\\
+  Carnegie Mellon University\\
+  \texttt{nitishkk@cmu.edu}
+  \And
+  Linghao Zhang\\
+  Institute for Software Research\\
+  Carnegie Mellon University\\
+  \texttt{linghaoz@cmu.edu}
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+	Free-form and open-ended Visual Question Answering systems solve the problem of providing an accurate natural language answer to a question pertaining to an image. In this project, we attempt to solve the problem of evaluating the relevance of questions to the input images.
+\end{abstract}
+
+\section{Introduction}
+The task of automatically answering questions in the context of visual information has gained prominence in the last few years. Being able to answer open-ended questions about an image is a challenging task, but one of great practical significance. For instance, visually impaired individuals might inquire about different aspects of an image in the form of free-form questions. However, when Visual Question Answering (VQA) systems are provided with irrelevant questions, they tend to provide nonsensical answers. VQA systems in real world scenarios are expected to be sophisticated to identify the relevance of posed free-form questions to the input image, to better answer them. 
+
+There are two aspects of relevance of a question to the input image:
+\begin{enumerate}
+\item Non-visual questions which do not require any input image to answer the question
+\item False-premise question which require an input image but do not pertain to the provided input image \\
+\end{enumerate}
+
+In this project, we formulate the problem as follows:
+\begin{quotation}
+\noindent Given an image and a natural language question about the image, identify if the question is relevant to the input image.
+\end{quotation}
+We aim to tackle both forms of relevance and provide a simple and scalable solution to the problem. 
+
+\section{Methodology}
+
+There are two facets to the posed problem. The first one involves differentiating visual and non-visual questions. And the second aspect of the problem statement deals with premise detection of a question for an image. We will establish simple and scalable rule-based as well as logistic regression based baselines for identifying both types of question relevance. We will also implement the approaches mentioned in [2] as our reference baselines. We will then explore a holistic architecture for both types of question relevance using LSTMs to improve the performance over these methods, while still realizing the scalability of the implementation. We believe that introducing other trained models like NeuralTalk and image captioning systems[2, 3] may not scale and can introduce inherent errors in the methodology. Hence, our approach will aim to circumvent the need for integrating external architectures as a solution to question relevance.
+
+\section{Datasets}
+We will use VQA 2.0 [1], which contains open-ended questions about images. These questions require an understanding of vision, language and common-sense knowledge to answer. It contains 265,016 images (MS COCO dataset and abstract scenes). For each image, there are at least 3 questions (5.4 questions on average). For each question, 10 ground truth answers and 3 plausible (but likely incorrect) answers are provided. We will assume that the questions provided by VQA 2.0 for the input images to be relevant to the images. We will use general knowledge and philosophical questions, provided by [2] to train a model for identifying non-visual questions. To model false-premise questions, we will use heuristic-based dissimilar questions within the VQA dataset to the true question for the input image. 
+
+\section*{References}
+
+[1] Goyal, Yash, et al. "Making the V in VQA matter: Elevating the role of image understanding in Visual Question Answering." arXiv preprint arXiv:1612.00837 (2016).\\
+
+[2] Ray, Arijit, et al. "Question relevance in VQA: identifying non-visual and false-premise questions." arXiv preprint arXiv:1606.06622 (2016).\\ 
+
+[3] Mahendru, Aroma, et al. "The promise of premise: Harnessing question premises in visual question answering." arXiv preprint arXiv:1705.00601 (2017).\\ 
+
+\end{document}
