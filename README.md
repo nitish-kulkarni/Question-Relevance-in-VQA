@@ -5,8 +5,8 @@ Data:
     Visual vs Non Visual Data
 
     Visual Questions:
-        Squad:
-        VQA 2.0: 
+        VQA 2.0: 381,055
     Non visual questions:
-        VQA 2.0:
+        Squad: 97,868
+        VQA 2.0: 9,949
 
