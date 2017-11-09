@@ -6,7 +6,6 @@ import sys
 # N for NonVisual questions
 
 for line in sys.stdin:
-    tag, question = line.strip().split('\t')
+    tag, question = line.strip('\n').strip().split('\t')
     if tag == sys.argv[1]:
-        print(question)
-
+        sys.stdout.write(question+"\n")
