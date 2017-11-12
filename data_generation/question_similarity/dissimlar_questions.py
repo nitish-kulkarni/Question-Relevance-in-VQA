@@ -7,7 +7,7 @@ of nouns, adjectives and verbs in the question
 import sys
 from gensim.models.keyedvectors import KeyedVectors
 
-from pos_tag import postags
+from data_processing.pos_tag import postags
 
 GOOGLE_WORD2VEC = 'data/word2vec_vectors/GoogleNews-vectors-negative300.bin'
 
