@@ -99,3 +99,19 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+data/visual_vs_nonvisual/general_knowledge_questions.dat
+data/visual_vs_nonvisual/genericqdata.xlsx
+data/visual_vs_nonvisual/postags
+data/visual_vs_nonvisual/test_a.dat
+data/visual_vs_nonvisual/test_a_postag.dat
+data/visual_vs_nonvisual/test_noa.dat
+data/visual_vs_nonvisual/test_noa_postag.dat
+data/visual_vs_nonvisual/train_a.dat
+data/visual_vs_nonvisual/train_a_postag.dat
+data/visual_vs_nonvisual/train_noa.dat
+data/visual_vs_nonvisual/train_noa_postag.dat
+data/visual_vs_nonvisual/val_a.dat
+data/visual_vs_nonvisual/val_a_postag.dat
+data/visual_vs_nonvisual/val_noa.dat
+data/visual_vs_nonvisual/val_noa_postag.dat
