@@ -7,7 +7,7 @@ import numpy as np
 
 unique_tags=['ADJ', 'ADP', 'ADV', 'CCONJ', 'DET', 'INTJ', 'NOUN', 'NUM', 'PART', 'PRON', 'PROPN', 'PUNCT', 'SPACE', 'SYM', 'VERB', 'X']
 n = len(unique_tags)
-vocab_size = n + (n*(n-1)/2)
+vocab_size = n
 eta = float(sys.argv[1])
 mu = float(sys.argv[2])
 traindata_size = int(sys.argv[3])
