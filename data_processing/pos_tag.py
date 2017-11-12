@@ -4,7 +4,7 @@ import sys
 nlp = spacy.load('en')
 
 def postags(question):
-    return [(token.text, token.pos_) for token in nlp(question.decode('utf-8'))]
+    return [(str(token.text), str(token.pos_)) for token in nlp(question.decode('utf-8'))]
 
 def main():
 	for line in sys.stdin:
