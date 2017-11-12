@@ -5,9 +5,14 @@ from sklearn.metrics import recall_score
 from sklearn.metrics import accuracy_score
 import numpy as np
 
-unique_tags=['ADJ', 'ADP', 'ADV', 'CCONJ', 'DET', 'INTJ', 'NOUN', 'NUM', 'PART', 'PRON', 'PROPN', 'PUNCT', 'SPACE', 'SYM', 'VERB', 'X']
-n = len(unique_tags)
-vocab_size = n
+tags=['ADJ', 'ADP', 'ADV', 'CCONJ', 'DET', 'INTJ', 'NOUN', 'NUM', 'PART', 'PRON', 'PROPN', 'PUNCT', 'SPACE', 'SYM', 'VERB', 'X']
+unique_tags = []
+for tag in tags:
+	unique_tags.append(tag)
+for tag1 in tags:
+	for tag2 in tags:
+		unique_tags.append(tag1 + "_" + tag2)
+vocab_size = len(unique_tags)
 eta = float(sys.argv[1])
 mu = float(sys.argv[2])
 traindata_size = int(sys.argv[3])
@@ -34,6 +39,7 @@ def get_hash_idx(curDoc):
 	question_split = curDoc.split("|")
 	odd_number_check = 0
 	x = {}
+	prev_token = ""
 	for token in question_split:
 		if odd_number_check == 0:
 			odd_number_check = 1
@@ -44,6 +50,15 @@ def get_hash_idx(curDoc):
 					x[index] += 1.0
 				else:
 					x[index] = 1.0
+				if prev_token != "":
+					index = unique_tags.index(prev_token + "_" + token)
+					if index in x:
+						x[index] += 1.0
+					else:
+						x[index] = 1.0
+				prev_token = token
+			else:
+				prev_token = ""
 			odd_number_check = 0
 	return x
 
