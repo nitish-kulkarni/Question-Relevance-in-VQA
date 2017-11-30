@@ -1,8 +1,8 @@
 import json
 
-INPUT_FILE = 'small_spice_input.json'
+INPUT_FILE = 'spice_input.json'
 OUTPUT_PREFIX = 'spice_input_file'
-NUM_SPLITS = 10
+NUM_SPLITS = 40
 
 def main():
     with open(INPUT_FILE, 'r') as fp:
