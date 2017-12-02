@@ -12,6 +12,6 @@ Dataset Format for {train, val}_{first, second}order_data.txt
 To extract features from data, use functions in data_processing/true_vs_false_premise/features.py
 
 Steps:
-    1) Add all the necessary json and t7 files in a folder, and set DATA_PATH in features.py as the path to the folder
-    2) Set QUESTIONS_MAP to vqa1 map or vqa2 map based on whether the dataset used is qrpe or extended dataset respectively
-    3) Refer to data_processing/true_vs_false_premise/test_features.py for feature extraction
+    * Add all the necessary json and t7 files in a folder, and set DATA_PATH in features.py as the path to the folder
+    * Set QUESTIONS_MAP to vqa1 map or vqa2 map based on whether the dataset used is qrpe or extended dataset respectively
+    * Refer to data_processing/true_vs_false_premise/test_features.py for feature extraction
