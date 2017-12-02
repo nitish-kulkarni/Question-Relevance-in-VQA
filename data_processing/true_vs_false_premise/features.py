@@ -8,7 +8,8 @@ import numpy as np
 DATA_PATH = '../../data/true_vs_false_premise/extended/processed'
 
 # Question and image maps
-QUESTIONS_MAP = json.load(DATA_PATH + '/vqa_questions.json', 'r')
+QUESTIONS_MAP = json.load(open(DATA_PATH + '/vqa2_questions.json', 'r'))
+# QUESTIONS_MAP = json.load(open(DATA_PATH + '/vqa1_questions.json', 'r'))
 COCO_TRAIN_IMG_MAP = json.load(open("%s/coco_train_image_map.json" % DATA_PATH, "r"))
 COCO_VAL_IMG_MAP = json.load(open("%s/coco_val_image_map.json" % DATA_PATH, "r"))
 VG_IMG_MAP = json.load(open("%s/vg_image_map.json" % DATA_PATH, "r"))

@@ -5,7 +5,7 @@ import sys
 import json
 import numpy as np
 
-def get_tuple(qid, imid, relevance, source):
+def get_tuple(imid, qid, relevance, source):
     return '%s\t%s\t%d\t%d' % (imid, qid, relevance, source)
 
 def main():

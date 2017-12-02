@@ -7,7 +7,7 @@ import numpy as np
 
 MAX_NEG_IMGS_PER_TUPLE = 10
 
-def get_tuple(qid, imid, relevance, source):
+def get_tuple(imid, qid, relevance, source):
     return '%s\t%s\t%d\t%d' % (imid, qid, relevance, source)
 
 def main():
