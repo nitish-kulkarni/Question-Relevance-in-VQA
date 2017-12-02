@@ -177,15 +177,15 @@ def build_dataset(input_file, split='train'):
 			for scene_graph_obj in scene_graph_objs:
 				sim = GetSimilarity(q, scene_graph_obj, split)
 				if sim > 0 and sim < 0.999:
-					if count > 0 and sim > 0.1:
+					if count == 0 or sim > 0.1:
 						neg_imgs.append((sim, scene_graph_obj["image_id"], q["tuple"][0]+"_"+scene_graph_obj["attr"]))
-					count += 1
-					if count == 100:
-						break
+						count += 1
+				if count == 100:
+					break
 
 			sorted_neg_imgs = sorted(neg_imgs, reverse=True)
-			neg_sims = [i[0] for i in sorted_neg_imgs]
-			neg_ids = [i[1] for i in sorted_neg_imgs]
+			neg_sims = ['%.3f' % i[0] for i in sorted_neg_imgs]
+			neg_ids = [str(i[1]) for i in sorted_neg_imgs]
 			neg_tups = [i[2] for i in sorted_neg_imgs]
 			
 			if count > 0:
