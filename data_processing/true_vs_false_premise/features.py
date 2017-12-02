@@ -15,7 +15,7 @@ COCO_VAL_IMG_MAP = json.load(open("%s/coco_val_image_map.json" % DATA_PATH, "r")
 VG_IMG_MAP = json.load(open("%s/vg_image_map.json" % DATA_PATH, "r"))
 
 ### Collecting fc7 features for images
-DATA_PATH = '/Volumes/Nitish-Passport/10605_project_files/data_generation/premise/generate_IQ_pairs/img_data'
+# DATA_PATH = '/Volumes/Nitish-Passport/10605_project_files/data_generation/premise/generate_IQ_pairs/img_data'
 COCO_TRAIN_FEAT = torchfile.load("%s/train_fc7.t7" % DATA_PATH)
 COCO_VAL_FEAT = torchfile.load("%s/val_fc7.t7" % DATA_PATH)
 VG_FEAT = torchfile.load("%s/vg_fc7.t7" % DATA_PATH)
