@@ -14,6 +14,7 @@ def vqa_to_spice(ipfile, opfile):
 	q_object = {}
 	for i in range(len(vqa_questions)):
 		q_object['image_id'] = str(vqa_questions[i]['image_id']) + ' ' + str( vqa_questions[i]['question_id']) + ' ' + vqa_questions[i]['question']
+		# q_object['image_id'] = vqa_questions[i]['image_id']
 		q_object['test']  = vqa_questions[i]['question']
 		q_object['refs'] = ['']
 		q_spice.append(copy.deepcopy(q_object))

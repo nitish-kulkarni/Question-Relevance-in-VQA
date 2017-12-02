@@ -14,7 +14,7 @@ def is_clean(tuple):
 	for item in tuple:
 		if item in tofilter_items:
 			return False
-	return True
+	return len(tuple) == 2
 
 if len(sys.argv):
 	print sys.argv
@@ -26,17 +26,15 @@ if len(sys.argv):
 		data = json.loads(ip.read())
 		results = []
 		for i in xrange(0, len(data)):	
-			proposition = data[i]
-			test_tuples = proposition["test_tuples"]
-			result = {}
-			prop_data = proposition["image_id"].split()
-			result["question"] = " ".join(prop_data[2::])
-			result["question_id"] = prop_data[1]
-			result["image_id"] = prop_data[0]
-			result["tuples"] = []
-			for test_tuple in test_tuples:
-				if is_clean(test_tuple["tuple"]):
-					result["tuples"].append(test_tuple["tuple"])
-			results.append(result)
-			
+		    proposition = data[i]
+		    test_tuples = proposition["test_tuples"]
+		    result = {}
+		    prop_data = proposition["image_id"].split()
+		    result["question"] = " ".join(prop_data[2::])
+		    result["question_id"] = prop_data[1]
+		    result["image_id"] = prop_data[0]
+		    for test_tuple in test_tuples:
+		        if is_clean(test_tuple["tuple"]):
+		            results.append(dict(result, **({'tuple': test_tuple['tuple']})))
 		json.dump(results, op)
+
