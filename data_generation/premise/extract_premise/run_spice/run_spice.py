@@ -3,8 +3,8 @@ import os
 INPUT_PREFIX = 'spice_input_file'
 OUTPUT_PREFIX = 'spice_output_file'
 
-START_IDX = 5
-END_IDX = 40
+START_IDX = 0
+END_IDX = 5
 
 def main():
     for i in range(START_IDX, END_IDX):

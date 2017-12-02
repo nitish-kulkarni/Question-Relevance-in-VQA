@@ -14,6 +14,7 @@ import pickle
 import torchfile
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy import sparse
+from tqdm import tqdm
 
 STORE_PATH = '/Volumes/Nitish-Passport/10605_project_files/data_generation/premise/generate_IQ_pairs/store'
 
@@ -124,6 +125,7 @@ def GetSimilarity(q, sg_obj, split='train'):
 		coco_dict = coco_train_dict
 	pred = q['tuple'][1]
 	target_pred = sg_obj["attr"]
+
 	if pred != target_pred:
 		if (pred in colors and target_pred in colors)\
 		or (pred in antonyms and target_pred in antonyms[pred]['antonym']):
@@ -134,15 +136,12 @@ def GetSimilarity(q, sg_obj, split='train'):
 			sim = cosine_similarity(input_feat_sparse,target_feat_sparse)[0][0]
 			if sim > 0.999:
 				sim = 0.0
-			return(sim)
-		else:
-			return(0.0)
-	else:
-		return(0.0)
+			return sim
+
+	return 0.0
 	
 def build_dataset(input_file, split='train'):
 	attr_index = build_indexes()
-	out = []
 	with open(input_file, "r") as f:
 		data = json.load(f)
 	answer_path = train_ans_path if split == 'train' else val_ans_path
@@ -152,7 +151,8 @@ def build_dataset(input_file, split='train'):
 		'that','item','word','time','part','end','structure','level','name','stuff','body'] + locations
 	excluded_answers = ['no', 'none', 'noone', 'zero', '0', 'yes']
 
-	for q in data:
+	out = []
+	for q in tqdm(data):
 		target_key = q["tuple"][0]
 		answer_key = '%d %d' % (int(q['image_id']), int(q['question_id']))
 		include = True
@@ -169,31 +169,44 @@ def build_dataset(input_file, split='train'):
 		if include:
 			target_pred = q["tuple"][1]
 			scene_graph_objs = attr_index[target_key]
-			curr_max, max_id = -1, -1
+			count = 0
+			neg_ids = []
+			neg_sims = []
+			neg_tups = []
+			neg_imgs = []
 			for scene_graph_obj in scene_graph_objs:
 				sim = GetSimilarity(q, scene_graph_obj, split)
-				if sim > curr_max and float(sim) < 0.999:
-					irr_obj = {
-							"q": q["question"],
-							"q_id": q["question_id"],
-							"rel_imid": q["image_id"],
-							"irr_imid": scene_graph_obj["image_id"],
-							"rel_tuple": "_".join(q["tuple"]),
-							"irr_tuple": q["tuple"][0]+"_"+scene_graph_obj["attr"],
-							"sim": float(sim)
-							}
-					curr_max = sim
-			if curr_max > 0.0:
-				out.append(irr_obj)		
-	out.sort(key=lambda x: x["sim"], reverse=False)
+				if sim > 0 and sim < 0.999:
+					if count > 0 and sim > 0.1:
+						neg_imgs.append((sim, scene_graph_obj["image_id"], q["tuple"][0]+"_"+scene_graph_obj["attr"]))
+					count += 1
+					if count == 100:
+						break
+
+			sorted_neg_imgs = sorted(neg_imgs, reverse=True)
+			neg_sims = [i[0] for i in sorted_neg_imgs]
+			neg_ids = [i[1] for i in sorted_neg_imgs]
+			neg_tups = [i[2] for i in sorted_neg_imgs]
+			
+			if count > 0:
+				out.append({
+					"q": q["question"],
+					"qid": q["question_id"],
+					"rel_imid": q["image_id"],
+					"irr_imids": neg_ids,
+					"rel_tuple": "_".join(q["tuple"]),
+					"irr_tuple": neg_tups,
+					"sims": neg_sims
+				})
+	# out.sort(key=lambda x: x["sim"], reverse=False)
 	return out
 
 def main():
 	args = sys.argv[1:]
 	out = build_dataset(args[0], args[2])
 	with open(args[1], "w") as f:
-		json.dump(out, f, indent=4)
+		json.dump(out, f)
 
-if __name__ == "__main__":					
-	# main()
-	a = 1
+if __name__ == "__main__":
+	main()
+	# a = 1

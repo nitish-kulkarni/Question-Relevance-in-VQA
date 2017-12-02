@@ -1,10 +1,10 @@
 import json
 
 INPUT_PREFIX = 'spice_output_file'
-OUTPUT_FILE = 'spice_output.json'
+OUTPUT_FILE = 'spice_output_train.json'
 
 START_IDX = 0
-END_IDX = 10
+END_IDX = 40
 
 def main():
     data = []
