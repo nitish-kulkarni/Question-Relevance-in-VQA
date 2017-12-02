@@ -4,14 +4,14 @@ import numpy as np
 
 ### Collecting necessary image ids for extracting features
 unique_image_ids = {}
-base_path = '../data/true_vs_false_premise'
+base_path = '/Users/nitish/acads/10605/project/data/true_vs_false_premise'
 data_train = json.load(open("%s/train.json" % base_path,"r"))
 data_test = json.load(open("%s/test.json" % base_path,"r"))
 n_train = len(data_train)
 n_test = len(data_test)
 
 ### Collecting fc7 features for images
-base_path = '../data_generation/premise/generate_IQ_pairs/img_data'
+base_path = '/Volumes/Nitish-Passport/10605_project_files/data_generation/premise/generate_IQ_pairs/img_data'
 coco_train_feat = torchfile.load("%s/train_fc7.t7" % base_path)
 coco_val_feat = torchfile.load("%s/val_fc7.t7" % base_path)
 vg_feat = torchfile.load("%s/vg_fc7.t7" % base_path)
@@ -20,7 +20,7 @@ coco_val_dict = json.load(open("%s/coco_val_dict.json" % base_path, "r"))
 vg_dict = json.load(open("%s/vg_dict.json" % base_path, "r"))
 
 # Data output path
-output_path = '../data/true_vs_false_premise'
+output_path = '/Users/nitish/acads/10605/project/data/true_vs_false_premise'
 
 def get_fc7(imid):
 	if imid in coco_train_dict:
