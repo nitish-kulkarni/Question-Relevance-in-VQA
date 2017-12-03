@@ -113,13 +113,13 @@ def main(params):
 
 	### Testing on first order train dataset
 	X_lang, X_img, Y = Ds.process_dataframe(Ds.data_train, max_len_sentence)
-	pred = model.predict([X_lang, X_img], batch_size=32, verbose=0)
+	pred = model.predict([X_lang, X_img], batch_size=32, verbose=1)
 	fid = open(datapath + "firstorder_train_pred.txt", "w")
 	for p in pred:
 		fid.write(str(p[0])+"\n")
 	fid.close()
 	precision, recall, fscore, support = score(Y, pred.round(), labels=[0, 1])
-	print "Metrics on qrpe test dataset"
+	print "Metrics on first order train dataset"
 	print('precision: {}'.format(precision))
 	print('recall: {}'.format(recall))
 	print('fscore: {}'.format(fscore))
@@ -128,13 +128,13 @@ def main(params):
 
 	### Testing on first order val dataset
 	X_lang, X_img, Y = Ds.process_dataframe(Ds.data_val, max_len_sentence)
-	pred = model.predict([X_lang, X_img], batch_size=32, verbose=0)
+	pred = model.predict([X_lang, X_img], batch_size=32, verbose=1)
 	fid = open(datapath + "firstorder_val_pred.txt", "w")
 	for p in pred:
 		fid.write(str(p[0])+"\n")
 	fid.close()
 	precision, recall, fscore, support = score(Y, pred.round(), labels=[0, 1])
-	print "Metrics on qrpe test dataset"
+	print "Metrics on first order val dataset"
 	print('precision: {}'.format(precision))
 	print('recall: {}'.format(recall))
 	print('fscore: {}'.format(fscore))
@@ -143,13 +143,13 @@ def main(params):
 
 	### Testing on first order test dataset
 	X_lang, X_img, Y = Ds.process_dataframe(Ds.data_test, max_len_sentence)
-	pred = model.predict([X_lang, X_img], batch_size=32, verbose=0)
+	pred = model.predict([X_lang, X_img], batch_size=32, verbose=1)
 	fid = open(datapath + "firstorder_test_pred.txt", "w")
 	for p in pred:
 		fid.write(str(p[0])+"\n")
 	fid.close()
 	precision, recall, fscore, support = score(Y, pred.round(), labels=[0, 1])
-	print "Metrics on qrpe test dataset"
+	print "Metrics on first order test dataset"
 	print('precision: {}'.format(precision))
 	print('recall: {}'.format(recall))
 	print('fscore: {}'.format(fscore))
@@ -158,13 +158,13 @@ def main(params):
 
 	### Testing on qrpe train dataset
 	X_lang, X_img, Y = Ds.process_dataframe(Ds.qrpe_train, max_len_sentence)
-	pred = model.predict([X_lang, X_img], batch_size=32, verbose=0)
+	pred = model.predict([X_lang, X_img], batch_size=32, verbose=1)
 	fid = open(datapath + "qrpe_train_pred.txt", "w")
 	for p in pred:
 		fid.write(str(p[0])+"\n")
 	fid.close()
 	precision, recall, fscore, support = score(Y, pred.round(), labels=[0, 1])
-	print "Metrics on qrpe test dataset"
+	print "Metrics on qrpe train dataset"
 	print('precision: {}'.format(precision))
 	print('recall: {}'.format(recall))
 	print('fscore: {}'.format(fscore))
@@ -173,7 +173,7 @@ def main(params):
 
 	### Testing on qrpe test dataset
 	X_lang, X_img, Y = Ds.process_dataframe(Ds.qrpe_test, max_len_sentence)
-	pred = model.predict([X_lang, X_img], batch_size=32, verbose=0)
+	pred = model.predict([X_lang, X_img], batch_size=32, verbose=1)
 	fid = open(datapath + "qrpe_test_pred.txt", "w")
 	for p in pred:
 		fid.write(str(p[0])+"\n")
