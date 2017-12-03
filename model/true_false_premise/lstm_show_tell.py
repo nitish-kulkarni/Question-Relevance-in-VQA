@@ -3,16 +3,12 @@ import numpy as np
 import pandas as pd
 from keras.preprocessing import sequence, text
 from keras.models import Sequential, Model
-from keras.layers import Dense, LSTM, Dropout, merge, Input 
+from keras.layers import Dense, LSTM, Dropout, Merge, Input, RepeatVector, TimeDistributed
 from keras.layers.embeddings import Embedding
 from keras.regularizers import l2
 from keras.callbacks import ModelCheckpoint
 from sklearn.metrics import precision_recall_fscore_support as score
 import json
-
-import json
-import torchfile
-import numpy as np
 
 EMBEDDING_LEN = 300
 
@@ -48,7 +44,8 @@ class Dataset():
 	def process_dataframe(self, inpdata, max_len_sentence, flag):
 		X = self.tokenizer.texts_to_sequences(inpdata.ques)
 		X_lang = sequence.pad_sequences(X, maxlen=max_len_sentence)
-		X_img = inpdata.img_fts
+		X_img = np.array([np.fromstring(key, dtype=np.float32, sep=",").reshape(300) for key in inpdata.img_fts])
+		Y = inpdata.rel.astype(int)
 		return X_lang, X_img, Y
 
 	def create_embedding_matrix(self, embeddings_path):
@@ -68,31 +65,22 @@ class Dataset():
 
 class LSTMModel():
 	def build_model(self, num_vocab, embedding_matrix, max_len):
-		image_model = Sequential()
-		image_model.add(Dense(EMBEDDING_LEN, input_dim = 300, activation='relu'))
-		image_model.add(RepeatVector(max_len))
-
 		lang_model = Sequential()
 		lang_model.add(Embedding(input_dim=num_vocab, output_dim=EMBEDDING_LEN, weights=[embedding_matrix], input_length=max_len))
 		lang_model.add(LSTM(256,return_sequences=True))
 		lang_model.add(TimeDistributed(Dense(EMBEDDING_LEN)))
 
+		image_model = Sequential()
+		image_model.add(Dense(EMBEDDING_LEN, input_dim = 300, activation='relu'))
+		image_model.add(RepeatVector(max_len))
+
 		model = Sequential()
-		model.add(LSTM(1000,return_sequences=False))
+		model.add(Merge([lang_model, image_model], mode='concat'))
+		model.add(LSTM(1000,return_sequences=False, input_shape=()))
 		model.add(Dense(100, activation='relu', W_regularizer=l2(0.0001), b_regularizer=l2(0.0001)))
 		model.add(Dense(50, activation='relu', W_regularizer=l2(0.0001), b_regularizer=l2(0.0001)))
 		model.add(Dense(1, activation='sigmoid', W_regularizer=l2(0.0001), b_regularizer=l2(0.0001)))
-
-		l_input = Input(shape=(max_len,))
-		i_input = Input(shape=(1,))
-
-		l_output = lang_model(l_input)
-		i_output = image_model(i_input)
-
-		merged_output = merge([l_output, i_output], mode='concat')
-		prediction = model(merged_output)
-
-		model = Model(input=[l_input, i_input], output=[prediction])
+		
 		model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 		print(model.summary())
 		return model
@@ -135,10 +123,10 @@ def main(params):
 if __name__=='__main__':
 	### Read user inputs
 	parser = argparse.ArgumentParser()
-	parser.add_argument("--datapath", dest="datapath", type=str, default="../../../project_nongit/Data/")
+	parser.add_argument("--datapath", dest="datapath", type=str, default="./")
 	parser.add_argument("--train_data_split", dest="train_data_split", type=float, default=0.8)
 	parser.add_argument("--max_len_sentence", dest="max_len_sentence", type=int, default=10)
-	parser.add_argument("--embeddings_path", dest="embeddings_path", type=str, default="../../../../11-785/Project/Data/glove.840B.300d.txt")
+	parser.add_argument("--embeddings_path", dest="embeddings_path", type=str, default="./glove.840B.300d.txt")
 	parser.add_argument("--model_path", dest="model_path", type=str, default="./models/")
 	params = vars(parser.parse_args())
 	main(params)
