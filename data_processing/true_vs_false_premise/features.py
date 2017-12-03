@@ -11,8 +11,8 @@ np.random.seed(42)
 DATA_PATH = "../../../project_nongit/Data/"
 
 # Question and image maps
-QUESTIONS_MAP = json.load(open(DATA_PATH + '/vqa2_questions.json', 'r'))
-# QUESTIONS_MAP = json.load(open(DATA_PATH + '/vqa1_questions.json', 'r'))
+#QUESTIONS_MAP = json.load(open(DATA_PATH + '/vqa2_questions.json', 'r'))
+QUESTIONS_MAP = json.load(open(DATA_PATH + '/vqa1_questions.json', 'r'))
 COCO_TRAIN_IMG_MAP = json.load(open("%s/coco_train_image_map.json" % DATA_PATH, "r"))
 COCO_VAL_IMG_MAP = json.load(open("%s/coco_val_image_map.json" % DATA_PATH, "r"))
 VG_IMG_MAP = json.load(open("%s/vg_image_map.json" % DATA_PATH, "r"))
@@ -125,9 +125,90 @@ for line in test_lines:
     fid.write(img_fts + "\t" + ques + "\t" + str(rel) + "\n")
 fid.close()
 
+### To generate QRPE data
+fid = open(DATA_PATH + "processed_train_data_ids.txt","r")
+train_lines = fid.readlines()
+fid.close()
+fid = open(DATA_PATH + "processed_val_data_ids.txt","r")
+val_lines = fid.readlines()
+fid.close()
+fid = open(DATA_PATH + "processed_test_data_ids.txt","r")
+test_lines = fid.readlines()
+fid.close()
+img_fts_full = {}
+i = 0
+with open(DATA_PATH + "processed_train_data.txt", "r") as f:
+    for line in f:
+        line = line.strip("\n")
+        img_fts_full[train_lines[i].split("\t")[0]] = line.split("\t")[0]
+        i+=1
+i = 0
+with open(DATA_PATH + "processed_val_data.txt", "r") as f:
+    for line in f:
+        line = line.strip("\n")
+        img_fts_full[val_lines[i].split("\t")[0]] = line.split("\t")[0]
+        i+=1
+i = 0
+with open(DATA_PATH + "processed_test_data.txt", "r") as f:
+    for line in f:
+        line = line.strip("\n")
+        img_fts_full[test_lines[i].split("\t")[0]] = line.split("\t")[0]
+        i+=1
 
+### Obtaining features for images not there in first order data
+ids_not_there = []
+coco = []
+with open(TRAIN_PATH,"r") as f:
+    for line in f:
+        line = line.strip("\n")
+        (imgid,qid,rel,src) = line.split("\t")
+        if imgid not in img_fts_full:
+            ids_not_there.append(imgid)
+            coco.append(int(src))
+with open(VAL_PATH,"r") as f:
+    for line in f:
+        line = line.strip("\n")
+        (imgid,qid,rel,src) = line.split("\t")
+        if imgid not in img_fts_full and imgid not in ids_not_there:
+            ids_not_there.append(imgid)
+            coco.append(int(src))
+print len(ids_not_there)
+img_features_not_there_full = get_image_features(ids_not_there, coco)
+img_features_not_there_full_transformed = pca.transform(img_features_not_there_full)
+img_features_not_there_full_d = {}
+for img in ids_not_there:
+    img_features_not_there_full_d[img] = ",".join(["{:.4f}".format(x) for x in img_features_not_there_full_transformed[ids_not_there.index(img)]])
 
+### Printing final txt file
+TRAIN_PATH = DATA_PATH + "train_data.txt"
+VAL_PATH = DATA_PATH + "val_data.txt"
+fid = open(TRAIN_PATH, "r")
+train_lines = fid.readlines()
+fid.close()
+fid = open(VAL_PATH, "r")
+test_lines = fid.readlines()
+fid.close()
 
-
-
+fid = open(DATA_PATH +"processed_qrpe_train_data.txt", "w")
+for line in train_lines:
+    line = line.strip("\n")
+    (img_id, qid, rel, src) = line.split("\t")
+    if img_id in img_fts_full:
+        img_fts = img_fts_full[img_id]
+    else:
+        img_fts = img_features_not_there_full_d[img_id]
+    ques = get_question(qid)
+    fid.write(img_fts + "\t" + ques + "\t" + str(rel) + "\n")
+fid.close()
+fid = open(DATA_PATH +"processed_qrpe_test_data.txt", "w")
+for line in test_lines:
+    line = line.strip("\n")
+    (img_id, qid, rel, src) = line.split("\t")
+    if img_id in img_fts_full:
+        img_fts = img_fts_full[img_id]
+    else:
+        img_fts = img_features_not_there_full_d[img_id]
+    ques = get_question(qid)
+    fid.write(img_fts + "\t" + ques + "\t" + str(rel) + "\n")
+fid.close()
 
