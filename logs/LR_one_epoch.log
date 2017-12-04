@@ -1,0 +1,50 @@
+=== Average training time per epoch = 1584.79s ===
+
+=== Metrics on first order val dataset ===
+
+Classification Report
+          precision    recall  f1-score   support
+   False       0.79      0.73      0.76    263761
+    True       0.34      0.42      0.38     88864
+
+Accuracy = 0.65
+Confusion Matrix
+192858		70903
+51884		36980
+
+=== Metrics on first order test dataset ===
+
+Classification Report
+          precision    recall  f1-score   support
+   False       0.81      0.75      0.78    693558
+    True       0.34      0.42      0.38    214354
+
+Accuracy = 0.67
+Confusion Matrix
+519056		174502
+125290		89064
+
+
+=== Metrics on qrpe train dataset ===
+
+Classification Report
+          precision    recall  f1-score   support
+   False       0.55      0.71      0.63     35392
+    True       0.57      0.40      0.49     34324
+
+Accuracy = 0.56
+Confusion Matrix
+25036		10356
+20448		13876
+
+=== Metrics on qrpe test dataset ===
+
+Classification Report
+          precision    recall  f1-score   support
+   False       0.56      0.73      0.65     18372
+    True       0.59      0.41      0.50     17738
+
+Accuracy = 0.57
+Confusion Matrix
+13439		4933
+10504		7234
