@@ -130,32 +130,35 @@ def report(name, tp, tn, fp, fn):
 
 
 def param_search():
-	train_file = DATA_PATH+'qrpe_Xy_train.txt'
-	val_file = DATA_PATH+'qrpe_Xy_test.txt'
+	train_file = DATA_PATH+'train_Xy.txt'
+	val_file = DATA_PATH+'val_Xy.txt'
 
-	for learning_rate in [0.5]:
+	result = ''
+	for learning_rate in [1, 0.5]:
 		for reg_coef in [1e-6, 1e-5, 1e-4]:
+			print('Evaluating params with lr = %f, reg = %f' % (learning_rate, reg_coef))
 			weights, acc = train(train_file, val_file, learning_rate=learning_rate, reg_coef=reg_coef, verbose=True)
-			np.save(DATA_PATH+('qrpe_LR_lr_%f_reg_%f.model'%(learning_rate, reg_coef)), weights)
-			print('lr = %f, reg = %f, acc = %f' % (learning_rate, reg_coef, acc))
+			np.save(DATA_PATH+('LR_lr_%f_reg_%f.model'%(learning_rate, reg_coef)), weights)
+			result += 'lr = %f, reg = %f, val_acc = %f' % (learning_rate, reg_coef, acc)
+	print(result)
 
 
 def main():
-	train_file = DATA_PATH+'Xy_train.txt'
-	val_file = DATA_PATH+'Xy_val.txt'
-	test_file = DATA_PATH+'Xy_test.txt'
-	qrpe_train_file = DATA_PATH+'qrpe_Xy_train.txt'
-	qrpe_test_file = DATA_PATH+'qrpe_Xy_test.txt'
+	train_file = DATA_PATH+'train_Xy.txt'
+	val_file = DATA_PATH+'val_Xy.txt'
+	test_file = DATA_PATH+'test_Xy.txt'
+	qrpe_train_file = DATA_PATH+'qrpe_train_Xy.txt'
+	qrpe_test_file = DATA_PATH+'qrpe_test_Xy.txt'
 	
 	# weights = train(train_file=train_file, val_file=val_file, max_iters=5, verbose=True)
 	
-	# weights = np.load(DATA_PATH+'LR.model.npy')
+	weights = np.load(DATA_PATH+'LR_lr_1.000000_reg_0.000100.model.npy')
 	# test(val_file, weights, name='first order val dataset', verbose=True)
-	# test(test_file, weights, name='first order test dataset', verbose=True)
+	test(test_file, weights, name='first order test dataset', verbose=True)
 	# test(qrpe_train_file, weights, name='qrpe train dataset', verbose=True)
-	# test(qrpe_test_file, weights, name='qrpe test dataset', verbose=True)
+	test(qrpe_test_file, weights, name='qrpe test dataset', verbose=True)
 
 
 if __name__ == '__main__':
-	param_search()
-	# main()
+	# param_search()
+	main()
