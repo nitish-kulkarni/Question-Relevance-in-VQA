@@ -13,7 +13,9 @@ def sigmoid(score):
 	return exp / (1 + exp)
 
 
-def train(train_file, val_file, name='first order train dataset', feat_dim=400, learning_rate=0.5, reg_coef=0.0001, max_iters=1, verbose=False):
+def train(train_file, val_file, name='first order train dataset', feat_dim=400, learning_rate=0.5, reg_coef=1e-4, max_iters=1, verbose=False):
+	if verbose:
+		print('Training ...')
 	start_time = time.time()
 	weights = np.zeros(feat_dim)
 	decay = 1 - 2 * learning_rate * reg_coef
@@ -46,10 +48,12 @@ def train(train_file, val_file, name='first order train dataset', feat_dim=400, 
 			if verbose and i % 10000 == 0:
 				print('%d lines processed, time elapsed = %.2fs' % (i, time.time()-start_time))
 
-		report(name, tp, tn, fp, fn)
+		if verbose:
+			report(name, tp, tn, fp, fn)
 
 		val_acc = test(val_file, weights)
-		print('validation accuracy = %.2f\n' % val_acc)
+		if verbose:
+			print('Epoch #%d, validation accuracy = %.2f\n' % (k+1, val_acc))
 
 		np.save(DATA_PATH+('LR_%d.model'%k), weights)
 
@@ -59,12 +63,15 @@ def train(train_file, val_file, name='first order train dataset', feat_dim=400, 
 		decay = 1 - 2 * learning_rate * reg_coef / k / k
 
 	avg_time = (time.time()-start_time) / max_iters
-	print('=== Average training time per epoch = %.2fs ===\n' % avg_time)
+	if verbose:
+		print('=== Average training time per epoch = %.2fs ===\n' % avg_time)
 
-	return weights
+	return weights, val_acc
 
 
 def test(test_file, weights, name=None, feat_dim=400, verbose=False):
+	if verbose:
+		print('Testing ...')
 	start_time = time.time()
 	total = 0
 	tp, tn, fp, fn = 0, 0, 0, 0
@@ -122,6 +129,17 @@ def report(name, tp, tn, fp, fn):
 	print('%d\t\t%d\n%d\t\t%d\n' % (tn, fp, fn, tp))
 
 
+def param_search():
+	train_file = DATA_PATH+'qrpe_Xy_train.txt'
+	val_file = DATA_PATH+'qrpe_Xy_test.txt'
+
+	for learning_rate in [0.5]:
+		for reg_coef in [1e-6, 1e-5, 1e-4]:
+			weights, acc = train(train_file, val_file, learning_rate=learning_rate, reg_coef=reg_coef, verbose=True)
+			np.save(DATA_PATH+('qrpe_LR_lr_%f_reg_%f.model'%(learning_rate, reg_coef)), weights)
+			print('lr = %f, reg = %f, acc = %f' % (learning_rate, reg_coef, acc))
+
+
 def main():
 	train_file = DATA_PATH+'Xy_train.txt'
 	val_file = DATA_PATH+'Xy_val.txt'
@@ -129,7 +147,7 @@ def main():
 	qrpe_train_file = DATA_PATH+'qrpe_Xy_train.txt'
 	qrpe_test_file = DATA_PATH+'qrpe_Xy_test.txt'
 	
-	weights = train(train_file=train_file, val_file=val_file, max_iters=5, verbose=True)
+	# weights = train(train_file=train_file, val_file=val_file, max_iters=5, verbose=True)
 	
 	# weights = np.load(DATA_PATH+'LR.model.npy')
 	# test(val_file, weights, name='first order val dataset', verbose=True)
@@ -139,4 +157,5 @@ def main():
 
 
 if __name__ == '__main__':
-	main()
+	param_search()
+	# main()
