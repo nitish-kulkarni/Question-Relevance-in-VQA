@@ -11,8 +11,8 @@ np.random.seed(42)
 DATA_PATH = "../../../project_nongit/Data/"
 
 # Question and image maps
-#QUESTIONS_MAP = json.load(open(DATA_PATH + '/vqa2_questions.json', 'r'))
-QUESTIONS_MAP = json.load(open(DATA_PATH + '/vqa1_questions.json', 'r'))
+QUESTIONS_MAP = json.load(open(DATA_PATH + '/vqa2_questions.json', 'r'))
+#QUESTIONS_MAP = json.load(open(DATA_PATH + '/vqa1_questions.json', 'r'))
 COCO_TRAIN_IMG_MAP = json.load(open("%s/coco_train_image_map.json" % DATA_PATH, "r"))
 COCO_VAL_IMG_MAP = json.load(open("%s/coco_val_image_map.json" % DATA_PATH, "r"))
 VG_IMG_MAP = json.load(open("%s/vg_image_map.json" % DATA_PATH, "r"))
@@ -24,6 +24,9 @@ VG_FEAT = torchfile.load("%s/vg_fc7.t7" % DATA_PATH)
 
 TRAIN_PATH = DATA_PATH + "train_firstorder_data.txt"
 VAL_PATH = DATA_PATH + "val_firstorder_data.txt"
+
+TRAIN_SECOND_PATH = DATA_PATH + "train_second_order_data.txt"
+TEST_SECOND_PATH = DATA_PATH + "val_second_order_data.txt"
 
 def get_image_feature(image_id, coco=True):
     """inputs: 
@@ -158,14 +161,14 @@ with open(DATA_PATH + "processed_test_data.txt", "r") as f:
 ### Obtaining features for images not there in first order data
 ids_not_there = []
 coco = []
-with open(TRAIN_PATH,"r") as f:
+with open(TRAIN_SECOND_PATH,"r") as f:
     for line in f:
         line = line.strip("\n")
         (imgid,qid,rel,src) = line.split("\t")
         if imgid not in img_fts_full:
             ids_not_there.append(imgid)
             coco.append(int(src))
-with open(VAL_PATH,"r") as f:
+with open(TEST_SECOND_PATH,"r") as f:
     for line in f:
         line = line.strip("\n")
         (imgid,qid,rel,src) = line.split("\t")
@@ -189,6 +192,13 @@ fid = open(VAL_PATH, "r")
 test_lines = fid.readlines()
 fid.close()
 
+fid = open(TRAIN_SECOND_PATH, "r")
+train_lines = fid.readlines()
+fid.close()
+fid = open(TEST_SECOND_PATH, "r")
+test_lines = fid.readlines()
+fid.close()
+
 fid = open(DATA_PATH +"processed_qrpe_train_data.txt", "w")
 for line in train_lines:
     line = line.strip("\n")
@@ -201,6 +211,29 @@ for line in train_lines:
     fid.write(img_fts + "\t" + ques + "\t" + str(rel) + "\n")
 fid.close()
 fid = open(DATA_PATH +"processed_qrpe_test_data.txt", "w")
+for line in test_lines:
+    line = line.strip("\n")
+    (img_id, qid, rel, src) = line.split("\t")
+    if img_id in img_fts_full:
+        img_fts = img_fts_full[img_id]
+    else:
+        img_fts = img_features_not_there_full_d[img_id]
+    ques = get_question(qid)
+    fid.write(img_fts + "\t" + ques + "\t" + str(rel) + "\n")
+fid.close()
+
+fid = open(DATA_PATH +"processed_secondorder_train_data.txt", "w")
+for line in train_lines:
+    line = line.strip("\n")
+    (img_id, qid, rel, src) = line.split("\t")
+    if img_id in img_fts_full:
+        img_fts = img_fts_full[img_id]
+    else:
+        img_fts = img_features_not_there_full_d[img_id]
+    ques = get_question(qid)
+    fid.write(img_fts + "\t" + ques + "\t" + str(rel) + "\n")
+fid.close()
+fid = open(DATA_PATH +"processed_secondorder_test_data.txt", "w")
 for line in test_lines:
     line = line.strip("\n")
     (img_id, qid, rel, src) = line.split("\t")
