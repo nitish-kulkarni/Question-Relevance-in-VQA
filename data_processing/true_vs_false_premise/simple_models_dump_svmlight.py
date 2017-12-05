@@ -11,7 +11,7 @@ DIM_FEAT = 400
 
 def process_data(mode):
 	print('Processing %s dataset ...' % mode)
-	assert mode in ['train', 'val', 'test', 'qrpe_train', 'qrpe_test']
+	assert mode in ['train', 'val', 'test', 'qrpe_train', 'qrpe_test', 'secondorder_train', 'secondorder_test']
 	start_time = time.time()
 	
 	f = open('{0}{1}_Xy.txt'.format(DATA_PATH, mode))
@@ -60,8 +60,10 @@ def process_data(mode):
 
 
 if __name__ == '__main__':
-	process_data('train')
-	process_data('val')
-	process_data('test')
+	# process_data('train')
+	# process_data('val')
+	# process_data('test')
 	# process_data('qrpe_train')
 	# process_data('qrpe_test')
+	process_data('secondorder_train')
+	process_data('secondorder_test')

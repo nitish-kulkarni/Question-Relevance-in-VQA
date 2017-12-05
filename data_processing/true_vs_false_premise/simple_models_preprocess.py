@@ -8,7 +8,7 @@ DIM_TXT_FEAT = 100
 
 
 def process_data(mode):
-    assert mode in ['train', 'val', 'test', 'qrpe_train', 'qrpe_test']
+    assert mode in ['train', 'val', 'test', 'qrpe_train', 'qrpe_test', 'secondorder_train', 'secondorder_test']
     
     f = open(DATA_PATH+'processed_%s_data.txt' % mode)
     g = open(DATA_PATH+'%s_questions.raw' % mode, 'w')
@@ -51,8 +51,10 @@ def process_data(mode):
 
 
 if __name__ == '__main__':
-	process_data('train')
-	process_data('val')
-	process_data('test')
+	# process_data('train')
+	# process_data('val')
+	# process_data('test')
 	# process_data('qrpe_train')
 	# process_data('qrpe_test')
+	process_data('secondorder_train')
+	process_data('secondorder_test')
