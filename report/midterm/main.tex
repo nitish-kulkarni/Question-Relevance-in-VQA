@@ -1,0 +1,74 @@
+%%%% Proceedings format for most of ACM conferences (with the exceptions listed below) and all ICPS volumes.
+\documentclass[sigconf]{acmart}
+\settopmatter{printacmref=false} % Removes citation information below abstract
+\renewcommand\footnotetextcopyrightpermission[1]{} % removes footnote with conference information in first column
+\pagestyle{plain} % removes running headers
+%%%% As of March 2017, [siggraph] is no longer used. Please use sigconf (above) for SIGGRAPH conferences.
+
+%%%% Proceedings format for SIGPLAN conferences 
+% \documentclass[sigplan, anonymous, review]{acmart}
+
+%%%% Proceedings format for SIGCHI conferences
+% \documentclass[sigchi, review]{acmart}
+
+%%%% To use the SIGCHI extended abstract template, please visit
+% https://www.overleaf.com/read/zzzfqvkmrfzn
+\usepackage{booktabs} % For formal tables
+% Copyright
+%\setcopyright{none}
+%\setcopyright{acmcopyright}
+%\setcopyright{acmlicensed}
+% \setcopyright{rightsretained}
+%\setcopyright{usgov}
+%\setcopyright{usgovmixed}
+%\setcopyright{cagov}
+%\setcopyright{cagovmixed}
+
+%Conference
+\acmConference[]{}
+\copyrightyear{}
+
+\acmArticle{4}
+\acmPrice{15.00}
+
+\begin{document}
+\title{Question Relevance in Visual Question Answering}
+\author{Prakruthi Prabhakar}
+\affiliation{%
+  \institution{ML with Large Datasets (10-805) \\ Carnegie Mellon University}
+  \city{Pittsburgh} 
+  \state{PA} 
+  \postcode{15217}
+}
+\email{prakrutp@andrew.cmu.edu}
+
+\author{Nitish Kulkarni}
+\affiliation{%
+  \institution{ML with Large Datasets (10-805) \\ Carnegie Mellon University}
+  \city{Pittsburgh}
+  \state{PA}
+  \postcode{15217}
+}
+\email{nitishkk@andrew.cmu.edu}
+
+\author{Linghao Zhang}
+\affiliation{%
+  \institution{ML with Large Datasets (10-805) \\ Carnegie Mellon University}
+  \city{Pittsburgh} 
+  \state{PA} 
+  \postcode{15217}
+}
+\email{linghaoz@andrew.cmu.edu}
+
+\begin{abstract}
+Free-form and open-ended Visual Question Answering systems solve the problem of providing an accurate natural language answer to a question pertaining to an image. In this paper, we solve the problem of identifying the relevance of the posed question to the image. We address the problem as two sub-problems. We first identify if the question is visual or not. If the question is visual, we then determine if it's relevant to the image or not. We present the results of two models to identify if the question is visual. We also present the data extraction methodology for solving the relevance to the image, given a visual question. We aim to solve the second sub-problem as part of the final project. 
+\end{abstract}
+
+\maketitle
+
+\input{body}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{sample-bibliography} 
+
+\end{document}
