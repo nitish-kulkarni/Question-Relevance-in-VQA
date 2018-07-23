@@ -1,5 +1,8 @@
 # Question-Relevance-in-VQA
-Project for 10-805: Machine Learning for large datasets
+
+Project for 10-805: Machine Learning for large datasets.
+
+[Final report](https://github.com/nitish-kulkarni/Question-Relevance-in-VQA/blob/master/10805-report-final-question-relevance-in-VQA.pdf).
 
 Data:
     Visual vs Non Visual Data
